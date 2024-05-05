@@ -1,0 +1,4 @@
+[submodule "qmk_firmware"]
+	path = qmk_firmware
+	url = https://github.com/ryodeushii/qmk-firmware.git
+	shallow = true
