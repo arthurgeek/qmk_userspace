@@ -1,30 +1,13 @@
-#include "ansi.h"
+#include "keymap.h"
+#include "keycodes.h"
+#include "macros.h"
 #include QMK_KEYBOARD_H
-
-enum layer_names {
-    _QWERTY,
-    _COLEMAK,
-    _FN,
-    _TOP_RGB,
-    _NP_RGB,
-};
 
 // clang-format off
 
-#define QWERTY   DF(_QWERTY)
-#define COLEMAK  DF(_COLEMAK)
-#define TOP_RGB  MO(_TOP_RGB)
-#define NP_RGB   MO(_NP_RGB)
-#define MAC_PRTA G(S(KC_4))
-#define MAC_PRTO G(S(KC_5))
-#define MAC_LOCK G(C(KC_Q))
-#define WM_LEFT  HYPR(KC_LEFT)
-#define WM_UP    HYPR(KC_UP)
-#define WM_RGHT  HYPR(KC_RGHT)
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_QWERTY] = LAYOUT_tkl_ansi(
-	KC_ESC,       KC_BRMD,  KC_BRMU,  MAC_TASK, MAC_SEARCH, MAC_VOICE, MAC_DND, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD,   KC_VOLU,    COLEMAK,     MAC_PRTA,          MAC_PRTO,            MAC_LOCK,
+	KC_ESC,       KC_BRMD,  KC_BRMU,  MAC_TASK, MAC_SEARCH, MAC_VOICE, MAC_DND, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD,   KC_VOLU,    LAYOUT,      MAC_PRTA,          MAC_PRTO,            MAC_LOCK,
 	KC_GRV,       KC_1,     KC_2,     KC_3,     KC_4,       KC_5,      KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS,   KC_EQL,     KC_BSPC,     WM_LEFT,           WM_UP,               WM_RGHT,
 	KC_TAB,       KC_Q,     KC_W,     KC_E,     KC_R,       KC_T,      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC,   KC_RBRC,    KC_BSLS,     KC_HOME,           KC_END,              MAC_GLOBE,
 	KC_CAPS,      KC_A,     KC_S,     KC_D,     KC_F,       KC_G,      KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,   KC_ENT,
@@ -32,11 +15,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	KC_LCTL,      KC_LOPT,  KC_LCMD,                                   KC_SPC,                             KC_RCMD, KC_ROPT,   MO(_FN),    KC_RCTL,     KC_LEFT,           KC_DOWN,             KC_RGHT),
 
 [_COLEMAK] = LAYOUT_tkl_ansi(
-	_______,      _______,  _______,  _______,  _______,    _______,   _______, _______, _______, _______, _______, _______,   _______,    QWERTY,      _______,           _______,             _______,
+	_______,      _______,  _______,  _______,  _______,    _______,   _______, _______, _______, _______, _______, _______,   _______,    _______,     _______,           _______,             _______,
 	_______,      _______,  _______,  _______,  _______,    _______,   _______, KC_BSLS, KC_7,    KC_8,    KC_9,    KC_0,      _______,    _______,     _______,           _______,             _______,
 	_______,      KC_Q,     KC_W,     KC_F,     KC_P,       KC_B,      KC_LBRC, KC_J,    KC_L,    KC_U,    KC_Y,    KC_QUOT,   KC_MINS,    KC_SCLN,     _______,           _______,             _______,
 	_______,      KC_A,     KC_R,     KC_S,     KC_T,       KC_G,      KC_RBRC, KC_M,    KC_N,    KC_E,    KC_I,    KC_O,      _______,
 	_______,      KC_X,     KC_C,     KC_D,     KC_V,       KC_Z,      KC_SLSH, KC_K,    KC_H,    KC_COMM, KC_DOT,  _______,                                               _______,
+	_______,      _______,  _______,                                   _______,                            _______, _______,   _______,    _______,     _______,           _______,             _______),
+
+[_GALLIUM] = LAYOUT_tkl_ansi(
+	_______,      _______,  _______,  _______,  _______,    _______,   _______, _______, _______, _______, _______, _______,   _______,    _______,     _______,           _______,             _______,
+	_______,      _______,  _______,  _______,  _______,    _______,   _______, _______, _______, _______, _______, _______,   _______,    _______,     _______,           _______,             _______,
+	_______,      KC_B,     KC_L,     KC_D,     KC_C,       KC_V,      KC_J,    KC_F,    KC_O,    KC_U,    KC_COMM, _______,   _______,    _______,     _______,           _______,             _______,
+	_______,      KC_N,     KC_R,     KC_T,     KC_S,       KC_G,      KC_Y,    KC_H,    KC_A,    KC_E,    KC_I,    KC_SLSH,   _______,
+	_______,      KC_X,     KC_Q,     KC_M,     KC_W,       KC_Z,      KC_K,    KC_P,    KC_QUOT, KC_SCLN, KC_DOT,  _______,                                               _______,
 	_______,      _______,  _______,                                   _______,                            _______, _______,   _______,    _______,     _______,           _______,             _______),
 
 [_FN] = LAYOUT_tkl_ansi(

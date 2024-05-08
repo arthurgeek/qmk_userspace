@@ -1,4 +1,5 @@
 #include "macros.h"
+#include "keymap.h"
 #include "quantum.h"
 
 bool process_record_user(uint16_t keycode, keyrecord_t* record) {
@@ -56,6 +57,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
                         SS_LSFT(SS_TAP(X_LEFT) SS_TAP(X_RGHT)))
                     // Replace the selection with a single space.
                     SS_TAP(X_SPC));
+            }
+            return false;
+
+        case LAYOUT:
+            if (record->event.pressed) {
+                if (IS_LAYER_ON(_QWERTY)) {
+                    default_layer_set(_COLEMAK);
+                } else if (IS_LAYER_ON(_COLEMAK)) {
+                    default_layer_set(_GALLIUM);
+                } else if (IS_LAYER_ON(_GALLIUM)) {
+                    default_layer_set(_QWERTY);
+                }
             }
             return false;
     }

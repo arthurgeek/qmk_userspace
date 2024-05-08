@@ -8,4 +8,5 @@ enum macros {
     SELLINE,
     SRCHSEL,
     JOINLN,
+    LAYOUT,
 };
