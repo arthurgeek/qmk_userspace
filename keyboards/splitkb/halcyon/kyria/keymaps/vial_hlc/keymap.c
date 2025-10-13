@@ -25,24 +25,24 @@ enum layers {
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /*
- * Base Layer: Gallium
+ * Base Layer: Gallium with Home Row Mods (CAGS)
  *
  * ,-------------------------------------------.                              ,-------------------------------------------.
  * |  Tab   |   B  |   L  |   D  |   C  |   V  |                              |   J  |   Y  |   O  |   U  |   ,  | Bspc   |
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * |Ctrl/Esc|   N  |   R  |   T  |   S  |   G  |                              |   P  |   H  |   A  |   E  |   I  |Ctrl/' "|
+ * |Ctrl/Esc| Ctl/N| Alt/R|GUI/T |Sft/S |   G  |                              |   P  |Sft/H |GUI/A |Alt/E |Ctl/I |Ctrl/' "|
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
  * | LShift |   X  |   Q  |   M  |   W  |   Z  |  [   | Caps |  | FKeys|  ]   |   K  |   F  |  ' " | ;  : | .  > | RShift |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |Adjust| GUI  |Alt/Ent| Space|  Nav | |  Sym | Space| AltGr| GUI  | Menu |
+ *                        |Adjust| GUI  |Alt/Ent| Space| Nav |  |  Sym | Space| AltGr| GUI  | Menu |
  *                        `----------------------------------'  `----------------------------------'
  */
     [_GALLIUM] = LAYOUT_split_3x6_5_hlc(
-     KC_TAB  , KC_B ,  KC_L   ,  KC_D  ,   KC_C ,   KC_V ,                                        KC_J,     KC_Y ,    KC_O ,    KC_U ,   KC_COMM, KC_BSPC,
-     CTL_ESC , KC_N ,  KC_R   ,  KC_T  ,   KC_S ,   KC_G ,                                        KC_P,     KC_H ,    KC_A ,    KC_E ,   KC_I   , CTL_QUOT,
-     KC_LSFT , KC_X ,  KC_Q   ,  KC_M  ,   KC_W ,   KC_Z , KC_LBRC, KC_CAPS, FKEYS  , KC_RBRC,    KC_K,     KC_F ,    KC_QUOTE, KC_SCLN, KC_DOT , KC_RSFT,
-                                 ADJUST, KC_LGUI, ALT_ENT, KC_SPC , NAV    , SYM    , KC_SPC ,    KC_RALT,  KC_RGUI,  KC_APP,
-                                 KC_NO , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  ,    KC_NO  ,  KC_NO  ,  KC_NO
+     KC_TAB  , KC_B        , KC_L        , KC_D        , KC_C        , KC_V ,                                             KC_J, KC_Y        , KC_O        , KC_U        , KC_COMM     , KC_BSPC,
+     CTL_ESC , LCTL_T(KC_N), LALT_T(KC_R), LGUI_T(KC_T), LSFT_T(KC_S), KC_G ,                                             KC_P, RSFT_T(KC_H), RGUI_T(KC_A), RALT_T(KC_E), RCTL_T(KC_I), CTL_QUOT,
+     KC_LSFT , KC_X        , KC_Q        , KC_M        , KC_W        , KC_Z , KC_LBRC, KC_CAPS, FKEYS  , KC_RBRC,         KC_K, KC_F        , KC_QUOTE    , KC_SCLN     , KC_DOT      , KC_RSFT,
+                                           ADJUST, KC_LGUI, ALT_ENT, KC_SPC , NAV    , SYM    , KC_SPC , KC_RALT, KC_RGUI, KC_APP,
+                                           KC_NO , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO
     ),
 
 /*
@@ -150,3 +150,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //     ),
 };
 // clang-format on
+
+// Predictive Tap Hold side layout
+const uint8_t pth_side_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM = LAYOUT_split_3x6_5_hlc(
+ PTH_L, PTH_L, PTH_L, PTH_L, PTH_L, PTH_L,                                           PTH_R, PTH_R, PTH_R, PTH_R, PTH_R, PTH_R,
+ PTH_L, PTH_L, PTH_L, PTH_L, PTH_L, PTH_L,                                           PTH_R, PTH_R, PTH_R, PTH_R, PTH_R, PTH_R,
+ PTH_L, PTH_L, PTH_L, PTH_L, PTH_L, PTH_L, PTH_L, PTH_L,               PTH_R, PTH_R, PTH_R, PTH_R, PTH_R, PTH_R, PTH_R, PTH_R,
+                             PTH_L, PTH_L, PTH_L, PTH_L, PTH_L, PTH_R, PTH_R, PTH_R, PTH_R, PTH_R,
+                             PTH_L, PTH_L, PTH_L, PTH_L, PTH_L, PTH_R, PTH_R, PTH_R, PTH_R, PTH_R
+);

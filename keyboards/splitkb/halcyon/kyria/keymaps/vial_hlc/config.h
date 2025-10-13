@@ -15,3 +15,6 @@
 #define RGB_MATRIX_KEYPRESSES
 
 #define DYNAMIC_KEYMAP_LAYER_COUNT 8
+
+// Predictive Tap Hold configuration
+#define TAPPING_TERM 0
