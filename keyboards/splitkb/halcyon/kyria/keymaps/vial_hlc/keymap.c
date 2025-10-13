@@ -17,32 +17,27 @@ enum layers {
 #define FKEYS    MO(_FUNCTION)
 #define ADJUST   MO(_ADJUST)
 
-#define CTL_ESC  MT(MOD_LCTL, KC_ESC)
-#define CTL_QUOT MT(MOD_RCTL, KC_QUOTE)
-#define CTL_MINS MT(MOD_RCTL, KC_MINUS)
-#define ALT_ENT  MT(MOD_LALT, KC_ENT)
-
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /*
  * Base Layer: Gallium with Home Row Mods (CAGS)
  *
  * ,-------------------------------------------.                              ,-------------------------------------------.
- * |  Tab   |   B  |   L  |   D  |   C  |   V  |                              |   J  |   Y  |   O  |   U  |   ,  | Bspc   |
+ * |        |   B  |   L  |   D  |   C  |   V  |                              |   J  |   Y  |   O  |   U  |   ,  |        |
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * |Ctrl/Esc| Ctl/N| Alt/R|GUI/T |Sft/S |   G  |                              |   P  |Sft/H |GUI/A |Alt/E |Ctl/I |Ctrl/' "|
+ * |        | Ctl/N| Alt/R|GUI/T |Sft/S |   G  |                              |   P  |Sft/H |GUI/A |Alt/E |Ctl/I |        |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * | LShift |   X  |   Q  |   M  |   W  |   Z  |  [   | Caps |  | FKeys|  ]   |   K  |   F  |  ' " | ;  : | .  > | RShift |
+ * |        |   X  |   Q  |   M  |   W  |   Z  |  [   | Caps |  | FKeys|  ]   |   K  |   F  |  ' " | ;  : | .  > |  /  ?  |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |Adjust| GUI  |Alt/Ent| Space| Nav |  |  Sym | Space| AltGr| GUI  | Menu |
+ *                        |Adjust| Esc  | Enter| Space| Nav  |  |  Sym | Space| Bspc | Tab  | App  |
  *                        `----------------------------------'  `----------------------------------'
  */
     [_GALLIUM] = LAYOUT_split_3x6_5_hlc(
-     KC_TAB  , KC_B        , KC_L        , KC_D        , KC_C        , KC_V ,                                             KC_J, KC_Y        , KC_O        , KC_U        , KC_COMM     , KC_BSPC,
-     CTL_ESC , LCTL_T(KC_N), LALT_T(KC_R), LGUI_T(KC_T), LSFT_T(KC_S), KC_G ,                                             KC_P, RSFT_T(KC_H), RGUI_T(KC_A), RALT_T(KC_E), RCTL_T(KC_I), CTL_QUOT,
-     KC_LSFT , KC_X        , KC_Q        , KC_M        , KC_W        , KC_Z , KC_LBRC, KC_CAPS, FKEYS  , KC_RBRC,         KC_K, KC_F        , KC_QUOTE    , KC_SCLN     , KC_DOT      , KC_RSFT,
-                                           ADJUST, KC_LGUI, ALT_ENT, KC_SPC , NAV    , SYM    , KC_SPC , KC_RALT, KC_RGUI, KC_APP,
-                                           KC_NO , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO
+     _______ , KC_B        , KC_L        , KC_D        , KC_C        , KC_V ,                                             KC_J, KC_Y        , KC_O        , KC_U        , KC_COMM     , _______,
+     _______ , LCTL_T(KC_N), LALT_T(KC_R), LGUI_T(KC_T), LSFT_T(KC_S), KC_G ,                                             KC_P, RSFT_T(KC_H), RGUI_T(KC_A), RALT_T(KC_E), RCTL_T(KC_I), _______,
+     _______ , KC_X        , KC_Q        , KC_M        , KC_W        , KC_Z , KC_LBRC, KC_CAPS, FKEYS  , KC_RBRC,         KC_K, KC_F        , KC_QUOT     , KC_SCLN     , KC_DOT      , KC_SLSH,
+                                           ADJUST , KC_ESC , KC_ENT , KC_SPC , NAV    , SYM    , KC_SPC , KC_BSPC, KC_TAB , KC_APP,
+                                           KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO
     ),
 
 /*
