@@ -14,6 +14,11 @@
 #define RGB_MATRIX_FRAMEBUFFER_EFFECTS
 #define RGB_MATRIX_KEYPRESSES
 
+// Set default RGB mode to solid color (allows custom indicators to show)
+#define RGB_MATRIX_DEFAULT_MODE RGB_MATRIX_SOLID_COLOR
+// Set default color to black (off) so only custom indicators show
+#define RGB_MATRIX_DEFAULT_VAL 0
+
 #define DYNAMIC_KEYMAP_LAYER_COUNT 8
 
 // Predictive Tap Hold configuration
