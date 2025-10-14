@@ -11,7 +11,27 @@ enum layers {
     _NUM,
     _SYM,
     _FUN,
-    _ADJUST
+    _ADJUST,
+    _PT,
+    _PT_COMBO
+};
+
+// Custom keycodes for Portuguese characters using dead keys
+enum custom_keycodes {
+    PT_A_TILDE = SAFE_RANGE,  // ã: KC_TILD + KC_A
+    PT_A_ACUTE,                // á: KC_QUOT + KC_A
+    PT_A_GRAVE,                // à: KC_GRV + KC_A
+    PT_E_ACUTE,                // é: KC_QUOT + KC_E
+    PT_E_CIRC,                 // ê: KC_CIRC + KC_E
+    PT_I_ACUTE,                // í: KC_QUOT + KC_I
+    PT_O_ACUTE,                // ó: KC_QUOT + KC_O
+    PT_O_CIRC,                 // ô: KC_CIRC + KC_O
+    PT_O_TILDE,                // õ: KC_TILD + KC_O
+    PT_C_CEDILLA,              // ç: KC_QUOT + KC_C (just outputs ç)
+    PT_CAO,                    // ção
+    PT_CA_TILDE,               // çã
+    PT_COES,                   // ções
+    PT_QU                      // qu
 };
 
 // Aliases for readability
@@ -22,6 +42,7 @@ enum layers {
 #define NUM_SPC  LT(_NUM, KC_SPC)
 #define FUN_BSP  LT(_FUN, KC_BSPC)
 #define ADJUST   MO(_ADJUST)
+#define PT_COMBO OSL(_PT_COMBO)
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -42,7 +63,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      _______ , KC_B        , KC_L        , KC_D        , KC_C        , KC_V ,                                             KC_J, KC_Y        , KC_O        , KC_U        , KC_COMM     , _______,
      _______ , LCTL_T(KC_N), LALT_T(KC_R), LGUI_T(KC_T), LSFT_T(KC_S), KC_G ,                                             KC_P, RSFT_T(KC_H), RGUI_T(KC_A), RALT_T(KC_E), RCTL_T(KC_I), _______,
      _______ , KC_X        , KC_Q        , KC_M        , KC_W        , KC_Z , KC_LBRC, KC_CAPS, _______, KC_RBRC,         KC_K, KC_F        , KC_QUOT     , KC_SCLN     , KC_DOT      , KC_SLSH,
-                                           ADJUST , KC_ESC , MED_ENT, NAV_SPC, MSE_TAB, SYM    , NUM_SPC, FUN_BSP, _______, KC_APP,
+                                           ADJUST , KC_ESC , MED_ENT, NAV_SPC, MSE_TAB, SYM    , NUM_SPC, FUN_BSP, OSL(_PT), KC_APP,
                                            KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO
     ),
 
@@ -193,6 +214,48 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                 _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
 
+/*
+ * PT Layer: Portuguese accented characters
+ *
+ * ,-------------------------------------------.                              ,-------------------------------------------.
+ * |        |      |      |      |      |      |                              |      |   õ  |   ó  |   ô  |      |        |
+ * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
+ * |        | Ctl  | Alt  | GUI  |Shift |      |                              |      |   á  |   ã  |   é  |   í  |        |
+ * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
+ * |        |      |  qu  |      |      |      |      |      |  |      |      |      | COMBO|   à  |   ê  |      |        |
+ * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
+ *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        `----------------------------------'  `----------------------------------'
+ */
+    [_PT] = LAYOUT_split_3x6_5_hlc(
+     _______, _______, _______, _______, _______   , _______,                                         _______, PT_O_TILDE , PT_O_ACUTE , PT_O_CIRC, _______, _______,
+     _______, _______, _______, _______, _______   , _______,                                         _______, PT_A_ACUTE , PT_A_TILDE , PT_E_ACUTE, PT_I_ACUTE, _______,
+     _______, _______, PT_QU   , _______, _______   , _______, _______, _______, _______, _______, _______, PT_COMBO   , PT_A_GRAVE, PT_E_CIRC , _______ , _______,
+                                _______, _______   , _______, _______, _______, _______   , _______    , _______   , _______, _______,
+                                _______, _______   , _______, _______, _______, _______   , _______    , _______   , _______, _______
+    ),
+
+/*
+ * PT_COMBO Layer: Portuguese character combinations (activated by OSL at F position in PT layer)
+ *
+ * ,-------------------------------------------.                              ,-------------------------------------------.
+ * |        |      |      |      |      |      |                              |      |      |  ção |      |      |        |
+ * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
+ * |        |      |      |      |      |      |                              |      |      |  çã  | ções |      |        |
+ * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
+ * |        |      |      |      |      |      |      |      |  |      |      |      |   ç  |      |      |      |        |
+ * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
+ *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        `----------------------------------'  `----------------------------------'
+ */
+    [_PT_COMBO] = LAYOUT_split_3x6_5_hlc(
+     _______, _______, _______, _______, _______, _______,                                     _______, _______    , PT_CAO     , _______, _______, _______,
+     _______, _______, _______, _______, _______, _______,                                     _______, _______    , PT_CA_TILDE, PT_COES , _______, _______,
+     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, PT_C_CEDILLA, _______   , _______ , _______, _______,
+                                _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+                                _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+    ),
+
 // /*
 //  * Layer template
 //  *
@@ -296,6 +359,14 @@ void keyboard_post_init_user(void) {
 #define COLOR_FUN       255, 64, 128    // Function keys (F1-F12)
 #define COLOR_MISC1     200, 100, 80    // Special/Misc keys
 #define COLOR_MISC2      64, 64, 64     // Special/Misc keys
+
+// Portuguese characters - semantic grouping
+#define COLOR_PT_A      255, 100, 0     // A-like characters (ã, á, à) - Orange
+#define COLOR_PT_E      0, 255, 150     // E-like characters (é, ê) - Teal/Cyan-green
+#define COLOR_PT_I      150, 0, 255     // I-like character (í) - Purple
+#define COLOR_PT_O      255, 200, 0     // O-like characters (ó, ô, õ) - Yellow-orange
+#define COLOR_PT_C      255, 0, 100     // Ç character - Pink/Magenta
+#define COLOR_PT_QU     100, 150, 255   // QU - Light blue
 
 // RGB lighting for layers
 bool rgb_matrix_indicators_user(void) {
@@ -507,5 +578,264 @@ bool rgb_matrix_indicators_user(void) {
         rgb_matrix_set_color(LED_R_SCLN, COLOR_RGB); // Mode Prev
     }
 
+    // PT Layer: Portuguese characters
+    else if (layer == _PT) {
+        // Left side home row mods
+        rgb_matrix_set_color(LED_L_N, COLOR_CTRL);   // Ctrl
+        rgb_matrix_set_color(LED_L_R, COLOR_ALT);    // Alt
+        rgb_matrix_set_color(LED_L_T, COLOR_GUI);    // GUI
+        rgb_matrix_set_color(LED_L_S, COLOR_SHIFT);  // Shift
+
+        // QU combination
+        rgb_matrix_set_color(LED_L_Q, COLOR_PT_QU);  // qu
+
+        // Portuguese characters - semantic grouping by vowel family
+        // O-like characters (ó, ô, õ)
+        rgb_matrix_set_color(LED_R_Y, COLOR_PT_O);      // õ
+        rgb_matrix_set_color(LED_R_O, COLOR_PT_O);      // ó
+        rgb_matrix_set_color(LED_R_U, COLOR_PT_O);      // ô
+
+        // A-like characters (ã, á, à)
+        rgb_matrix_set_color(LED_R_A, COLOR_PT_A);      // ã
+        rgb_matrix_set_color(LED_R_H, COLOR_PT_A);      // á
+        rgb_matrix_set_color(LED_R_QUOT, COLOR_PT_A);   // à
+
+        // E-like characters (é, ê)
+        rgb_matrix_set_color(LED_R_E, COLOR_PT_E);      // é
+        rgb_matrix_set_color(LED_R_SCLN, COLOR_PT_E);   // ê
+
+        // I-like character (í)
+        rgb_matrix_set_color(LED_R_I, COLOR_PT_I);      // í
+
+        // Ç/OSL character - activates combo layer
+        rgb_matrix_set_color(LED_R_F, COLOR_PT_C);      // COMBO (OSL)
+    }
+
+    // PT_COMBO Layer: Portuguese combinations
+    else if (layer == _PT_COMBO) {
+        // Left side home row mods (inherited from PT)
+        rgb_matrix_set_color(LED_L_N, COLOR_CTRL);   // Ctrl
+        rgb_matrix_set_color(LED_L_R, COLOR_ALT);    // Alt
+        rgb_matrix_set_color(LED_L_T, COLOR_GUI);    // GUI
+        rgb_matrix_set_color(LED_L_S, COLOR_SHIFT);  // Shift
+
+        // Portuguese combinations - use combo color
+        rgb_matrix_set_color(LED_R_O, COLOR_PT_O);   // ção (O position)
+        rgb_matrix_set_color(LED_R_A, COLOR_PT_A);   // çã (A position)
+        rgb_matrix_set_color(LED_R_E, COLOR_PT_E);   // ções (E position)
+        rgb_matrix_set_color(LED_R_F, COLOR_PT_C);       // ç (F position)
+
+        // Turn off empty positions
+        rgb_matrix_set_color(LED_R_H, 0, 0, 0);         // H off
+        rgb_matrix_set_color(LED_R_I, 0, 0, 0);         // I off
+    }
+
     return false;
+}
+
+// Handle custom keycodes for Portuguese characters using dead keys
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (!record->event.pressed) {
+        return true;
+    }
+
+    bool shifted = get_mods() & MOD_MASK_SHIFT;
+
+    switch (keycode) {
+        // ã / Ã - US International: Shift+` (hold shift for upper, release for lower) then a
+        case PT_A_TILDE:
+            if (shifted) {
+                // Ã: Shift+grave, keep shift, then A
+                tap_code16(S(KC_GRV));
+                tap_code16(S(KC_A));
+            } else {
+                // ã: Shift+grave, release shift, then a
+                tap_code16(S(KC_GRV));
+                tap_code(KC_A);
+            }
+            return false;
+
+        // á / Á
+        case PT_A_ACUTE:
+            if (shifted) {
+                // Á: Shift+quot, keep shift, then A
+                tap_code16(S(KC_QUOT));
+                tap_code16(S(KC_A));
+            } else {
+                tap_code(KC_QUOT);
+                tap_code(KC_A);
+            }
+            return false;
+
+        // à / À - US International: ` (hold shift for upper) then a
+        case PT_A_GRAVE:
+            if (shifted) {
+                // À: grave, then Shift+A
+                tap_code16(KC_GRV);
+                tap_code16(S(KC_A));
+            } else {
+                // à: grave, then a
+                tap_code(KC_GRV);
+                tap_code(KC_A);
+            }
+            return false;
+
+        // é / É
+        case PT_E_ACUTE:
+            if (shifted) {
+                tap_code(KC_QUOT);       // Dead key '
+                tap_code16(S(KC_E));     // E
+            } else {
+                tap_code(KC_QUOT);       // Dead key '
+                tap_code(KC_E);          // e
+            }
+            return false;
+
+        // ê / Ê
+        case PT_E_CIRC:
+            if (shifted) {
+                tap_code16(S(KC_6));     // Dead key ^ (Shift+6)
+                tap_code16(S(KC_E));     // E
+            } else {
+                tap_code16(S(KC_6));     // Dead key ^ (Shift+6)
+                tap_code(KC_E);          // e
+            }
+            return false;
+
+        // í / Í
+        case PT_I_ACUTE:
+            if (shifted) {
+                tap_code(KC_QUOT);       // Dead key '
+                tap_code16(S(KC_I));     // I
+            } else {
+                tap_code(KC_QUOT);       // Dead key '
+                tap_code(KC_I);          // i
+            }
+            return false;
+
+        // ó / Ó
+        case PT_O_ACUTE:
+            if (shifted) {
+                tap_code(KC_QUOT);       // Dead key '
+                tap_code16(S(KC_O));     // O
+            } else {
+                tap_code(KC_QUOT);       // Dead key '
+                tap_code(KC_O);          // o
+            }
+            return false;
+
+        // ô / Ô
+        case PT_O_CIRC:
+            if (shifted) {
+                tap_code16(S(KC_6));     // Dead key ^ (Shift+6)
+                tap_code16(S(KC_O));     // O
+            } else {
+                tap_code16(S(KC_6));     // Dead key ^ (Shift+6)
+                tap_code(KC_O);          // o
+            }
+            return false;
+
+        // õ / Õ - US International: Shift+` (hold shift for upper, release for lower) then o
+        case PT_O_TILDE:
+            if (shifted) {
+                // Õ: Shift+grave, keep shift, then O
+                tap_code16(S(KC_GRV));
+                tap_code16(S(KC_O));
+            } else {
+                // õ: Shift+grave, release shift, then o
+                tap_code16(S(KC_GRV));
+                tap_code(KC_O);
+            }
+            return false;
+
+        // ç / Ç - Just output cedilla
+        case PT_C_CEDILLA:
+            if (shifted) {
+                tap_code(KC_QUOT);       // Dead key '
+                tap_code16(S(KC_C));
+            } else {
+                tap_code(KC_QUOT);       // Dead key '
+                tap_code(KC_C);
+            }
+            return false;
+
+        // ção / ÇÃO
+        case PT_CAO:
+            if (shifted) {
+                // Ç: quote + C
+                tap_code(KC_QUOT);
+                tap_code16(S(KC_C));
+                // Ã: Shift+grave, keep shift, then A
+                tap_code16(S(KC_GRV));
+                tap_code16(S(KC_A));
+                // O
+                tap_code16(S(KC_O));
+            } else {
+                // ç: quote + c
+                tap_code(KC_QUOT);
+                tap_code(KC_C);
+                // ã: Shift+grave, release shift, then a
+                tap_code16(S(KC_GRV));
+                tap_code(KC_A);
+                // o
+                tap_code(KC_O);
+            }
+            return false;
+
+        // çã / ÇÃ
+        case PT_CA_TILDE:
+            if (shifted) {
+                // Ç: quote + C
+                tap_code(KC_QUOT);
+                tap_code16(S(KC_C));
+                // Ã: Shift+grave, keep shift, then A
+                tap_code16(S(KC_GRV));
+                tap_code16(S(KC_A));
+            } else {
+                // ç: quote + c
+                tap_code(KC_QUOT);
+                tap_code(KC_C);
+                // ã: Shift+grave, release shift, then a
+                tap_code16(S(KC_GRV));
+                tap_code(KC_A);
+            }
+            return false;
+
+        // ções / ÇÕES
+        case PT_COES:
+            if (shifted) {
+                // Ç: quote + C
+                tap_code(KC_QUOT);
+                tap_code16(S(KC_C));
+                // Õ: Shift+grave, keep shift, then O
+                tap_code16(S(KC_GRV));
+                tap_code16(S(KC_O));
+                // ES
+                tap_code16(S(KC_E));
+                tap_code16(S(KC_S));
+            } else {
+                // ç: quote + c
+                tap_code(KC_QUOT);
+                tap_code(KC_C);
+                // õ: Shift+grave, release shift, then o
+                tap_code16(S(KC_GRV));
+                tap_code(KC_O);
+                // es
+                tap_code(KC_E);
+                tap_code(KC_S);
+            }
+            return false;
+
+        // qu / QU
+        case PT_QU:
+            if (shifted) {
+                tap_code16(S(KC_Q));     // Q
+                tap_code16(S(KC_U));     // U
+            } else {
+                tap_code(KC_Q);          // q
+                tap_code(KC_U);          // u
+            }
+            return false;
+    }
+    return true;
 }

@@ -19,7 +19,7 @@
 // Set default color to black (off) so only custom indicators show
 #define RGB_MATRIX_DEFAULT_VAL 0
 
-#define DYNAMIC_KEYMAP_LAYER_COUNT 8
+#define DYNAMIC_KEYMAP_LAYER_COUNT 10
 
 // Predictive Tap Hold configuration
 #define TAPPING_TERM 0
