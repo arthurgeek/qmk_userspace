@@ -332,6 +332,7 @@ const uint8_t pth_side_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM = LAYOUT_split_3
 #define LED_R_SYM 37      // Sym
 #define LED_R_NUM_SPC 38  // Num/Spc
 #define LED_R_FUN_BSP 39  // Fun/Bsp
+#define LED_R_OSL_PT 40   // OSL(PT)
 #define LED_R_APP 41      // App
 
 // Initialize RGB to solid color mode on startup
@@ -368,32 +369,92 @@ void keyboard_post_init_user(void) {
 #define COLOR_PT_C      255, 0, 100     // Ç character - Pink/Magenta
 #define COLOR_PT_QU     100, 150, 255   // QU - Light blue
 
+// Helper functions to turn off all keys on each side
+static void turn_off_all_left_side_keys(void) {
+    rgb_matrix_set_color(LED_L_B, 0, 0, 0);
+    rgb_matrix_set_color(LED_L_L, 0, 0, 0);
+    rgb_matrix_set_color(LED_L_D, 0, 0, 0);
+    rgb_matrix_set_color(LED_L_C, 0, 0, 0);
+    rgb_matrix_set_color(LED_L_V, 0, 0, 0);
+    rgb_matrix_set_color(LED_L_N, 0, 0, 0);
+    rgb_matrix_set_color(LED_L_R, 0, 0, 0);
+    rgb_matrix_set_color(LED_L_T, 0, 0, 0);
+    rgb_matrix_set_color(LED_L_S, 0, 0, 0);
+    rgb_matrix_set_color(LED_L_G, 0, 0, 0);
+    rgb_matrix_set_color(LED_L_X, 0, 0, 0);
+    rgb_matrix_set_color(LED_L_Q, 0, 0, 0);
+    rgb_matrix_set_color(LED_L_M, 0, 0, 0);
+    rgb_matrix_set_color(LED_L_W, 0, 0, 0);
+    rgb_matrix_set_color(LED_L_Z, 0, 0, 0);
+    rgb_matrix_set_color(LED_L_LBRC, 0, 0, 0);
+    rgb_matrix_set_color(LED_L_CAPS, 0, 0, 0);
+    rgb_matrix_set_color(LED_L_ADJUST, 0, 0, 0);
+    rgb_matrix_set_color(LED_L_ESC, 0, 0, 0);
+    rgb_matrix_set_color(LED_L_MED_ENT, 0, 0, 0);
+    rgb_matrix_set_color(LED_L_NAV_SPC, 0, 0, 0);
+    rgb_matrix_set_color(LED_L_MSE_TAB, 0, 0, 0);
+}
+
+static void turn_off_all_right_side_keys(void) {
+    rgb_matrix_set_color(LED_R_J, 0, 0, 0);
+    rgb_matrix_set_color(LED_R_Y, 0, 0, 0);
+    rgb_matrix_set_color(LED_R_O, 0, 0, 0);
+    rgb_matrix_set_color(LED_R_U, 0, 0, 0);
+    rgb_matrix_set_color(LED_R_COMM, 0, 0, 0);
+    rgb_matrix_set_color(LED_R_P, 0, 0, 0);
+    rgb_matrix_set_color(LED_R_H, 0, 0, 0);
+    rgb_matrix_set_color(LED_R_A, 0, 0, 0);
+    rgb_matrix_set_color(LED_R_E, 0, 0, 0);
+    rgb_matrix_set_color(LED_R_I, 0, 0, 0);
+    rgb_matrix_set_color(LED_R_RBRC, 0, 0, 0);
+    rgb_matrix_set_color(LED_R_K, 0, 0, 0);
+    rgb_matrix_set_color(LED_R_F, 0, 0, 0);
+    rgb_matrix_set_color(LED_R_QUOT, 0, 0, 0);
+    rgb_matrix_set_color(LED_R_SCLN, 0, 0, 0);
+    rgb_matrix_set_color(LED_R_DOT, 0, 0, 0);
+    rgb_matrix_set_color(LED_R_SLSH, 0, 0, 0);
+    rgb_matrix_set_color(LED_R_SYM, 0, 0, 0);
+    rgb_matrix_set_color(LED_R_NUM_SPC, 0, 0, 0);
+    rgb_matrix_set_color(LED_R_FUN_BSP, 0, 0, 0);
+    rgb_matrix_set_color(LED_R_OSL_PT, 0, 0, 0);
+    rgb_matrix_set_color(LED_R_APP, 0, 0, 0);
+}
+
+// Helper functions to set up modifiers (which also turn off other keys)
+static void set_left_side_modifiers(void) {
+    turn_off_all_left_side_keys();
+
+    // Set left side home row modifiers
+    rgb_matrix_set_color(LED_L_N, COLOR_CTRL);   // Ctrl
+    rgb_matrix_set_color(LED_L_R, COLOR_ALT);    // Alt
+    rgb_matrix_set_color(LED_L_T, COLOR_GUI);    // GUI
+    rgb_matrix_set_color(LED_L_S, COLOR_SHIFT);  // Shift
+}
+
+static void set_right_side_modifiers(void) {
+    turn_off_all_right_side_keys();
+
+    // Set right side home row modifiers
+    rgb_matrix_set_color(LED_R_H, COLOR_SHIFT);  // Shift
+    rgb_matrix_set_color(LED_R_A, COLOR_GUI);    // GUI
+    rgb_matrix_set_color(LED_R_E, COLOR_ALT);    // Alt
+    rgb_matrix_set_color(LED_R_I, COLOR_CTRL);   // Ctrl
+}
+
 // RGB lighting for layers
 bool rgb_matrix_indicators_user(void) {
     uint8_t layer = get_highest_layer(layer_state);
 
     // GALLIUM Layer: Show home row mods
     if (layer == _GALLIUM) {
-        // Left side home row mods
-        rgb_matrix_set_color(LED_L_N, COLOR_CTRL);   // Ctrl
-        rgb_matrix_set_color(LED_L_R, COLOR_ALT);    // Alt
-        rgb_matrix_set_color(LED_L_T, COLOR_GUI);    // GUI
-        rgb_matrix_set_color(LED_L_S, COLOR_SHIFT);  // Shift
-
-        // Right side home row mods
-        rgb_matrix_set_color(LED_R_H, COLOR_SHIFT);  // Shift
-        rgb_matrix_set_color(LED_R_A, COLOR_GUI);    // GUI
-        rgb_matrix_set_color(LED_R_E, COLOR_ALT);    // Alt
-        rgb_matrix_set_color(LED_R_I, COLOR_CTRL);   // Ctrl
+        set_left_side_modifiers();
+        set_right_side_modifiers();
     }
 
     // NAV Layer: Navigation and editing
     else if (layer == _NAV) {
-        // Modifiers (left side)
-        rgb_matrix_set_color(LED_L_N, COLOR_CTRL);   // Ctrl
-        rgb_matrix_set_color(LED_L_R, COLOR_ALT);    // Alt
-        rgb_matrix_set_color(LED_L_T, COLOR_GUI);    // GUI
-        rgb_matrix_set_color(LED_L_S, COLOR_SHIFT);  // Shift
+        set_left_side_modifiers();
+        turn_off_all_right_side_keys();
 
         // Editing operations
         rgb_matrix_set_color(LED_R_J, COLOR_EDIT);    // Redo
@@ -421,11 +482,8 @@ bool rgb_matrix_indicators_user(void) {
 
     // MOUSE Layer: Mouse emulation
     else if (layer == _MOUSE) {
-        // Modifiers (left side)
-        rgb_matrix_set_color(LED_L_N, COLOR_CTRL);   // Ctrl
-        rgb_matrix_set_color(LED_L_R, COLOR_ALT);    // Alt
-        rgb_matrix_set_color(LED_L_T, COLOR_GUI);    // GUI
-        rgb_matrix_set_color(LED_L_S, COLOR_SHIFT);  // Shift
+        set_left_side_modifiers();
+        turn_off_all_right_side_keys();
 
         // Editing operations
         rgb_matrix_set_color(LED_R_J, COLOR_EDIT);    // Redo
@@ -447,7 +505,6 @@ bool rgb_matrix_indicators_user(void) {
         rgb_matrix_set_color(LED_R_SCLN, COLOR_WHEEL); // Wheel Right
 
         // Mouse buttons
-        rgb_matrix_set_color(LED_L_NAV_SPC, COLOR_BUTTON); // Btn1 (left thumb)
         rgb_matrix_set_color(LED_R_SYM, COLOR_BUTTON);     // Btn3
         rgb_matrix_set_color(LED_R_NUM_SPC, COLOR_BUTTON); // Btn1
         rgb_matrix_set_color(LED_R_FUN_BSP, COLOR_BUTTON); // Btn2
@@ -455,11 +512,8 @@ bool rgb_matrix_indicators_user(void) {
 
     // MEDIA Layer: Media and RGB controls
     else if (layer == _MEDIA) {
-        // Modifiers (left side)
-        rgb_matrix_set_color(LED_L_N, COLOR_CTRL);   // Ctrl
-        rgb_matrix_set_color(LED_L_R, COLOR_ALT);    // Alt
-        rgb_matrix_set_color(LED_L_T, COLOR_GUI);    // GUI
-        rgb_matrix_set_color(LED_L_S, COLOR_SHIFT);  // Shift
+        set_left_side_modifiers();
+        turn_off_all_right_side_keys();
 
         // RGB controls
         rgb_matrix_set_color(LED_R_J, COLOR_RGB);    // RGB Toggle
@@ -484,6 +538,8 @@ bool rgb_matrix_indicators_user(void) {
 
     // NUM Layer: Numpad
     else if (layer == _NUM) {
+        turn_off_all_left_side_keys();
+
         // Numbers
         rgb_matrix_set_color(LED_L_B, COLOR_NUMBERS);  // 7
         rgb_matrix_set_color(LED_L_L, COLOR_NUMBERS);  // 8
@@ -503,15 +559,13 @@ bool rgb_matrix_indicators_user(void) {
         rgb_matrix_set_color(LED_L_MED_ENT, COLOR_NUMBERS); // 0
         rgb_matrix_set_color(LED_L_NAV_SPC, COLOR_SYMBOLS); // - (minus)
 
-        // Modifiers (right side)
-        rgb_matrix_set_color(LED_R_H, COLOR_SHIFT);  // Shift
-        rgb_matrix_set_color(LED_R_A, COLOR_CTRL);   // Ctrl
-        rgb_matrix_set_color(LED_R_E, COLOR_ALT);    // Alt
-        rgb_matrix_set_color(LED_R_I, COLOR_GUI);    // GUI
+        set_right_side_modifiers();
     }
 
     // SYM Layer: Symbols
     else if (layer == _SYM) {
+        turn_off_all_left_side_keys();
+
         // Symbols
         rgb_matrix_set_color(LED_L_B, COLOR_SYMBOLS);       // &
         rgb_matrix_set_color(LED_L_L, COLOR_SYMBOLS);       // *
@@ -529,15 +583,13 @@ bool rgb_matrix_indicators_user(void) {
         rgb_matrix_set_color(LED_L_MED_ENT, COLOR_SYMBOLS); // )
         rgb_matrix_set_color(LED_L_NAV_SPC, COLOR_SYMBOLS); // _ (underscore)
 
-        // Modifiers (right side)
-        rgb_matrix_set_color(LED_R_H, COLOR_SHIFT);  // Shift
-        rgb_matrix_set_color(LED_R_A, COLOR_CTRL);   // Ctrl
-        rgb_matrix_set_color(LED_R_E, COLOR_ALT);    // Alt
-        rgb_matrix_set_color(LED_R_I, COLOR_GUI);    // GUI
+        set_right_side_modifiers();
     }
 
     // FUN Layer: Function keys
     else if (layer == _FUN) {
+        turn_off_all_left_side_keys();
+
         // Function keys
         rgb_matrix_set_color(LED_L_B, COLOR_FUN);  // F7
         rgb_matrix_set_color(LED_L_L, COLOR_FUN);  // F8
@@ -557,15 +609,14 @@ bool rgb_matrix_indicators_user(void) {
         rgb_matrix_set_color(LED_L_MED_ENT, COLOR_MISC1); // Space
         rgb_matrix_set_color(LED_L_NAV_SPC, COLOR_MISC1); // Tab
 
-        // Modifiers (right side)
-        rgb_matrix_set_color(LED_R_H, COLOR_SHIFT);  // Shift
-        rgb_matrix_set_color(LED_R_A, COLOR_CTRL);   // Ctrl
-        rgb_matrix_set_color(LED_R_E, COLOR_ALT);    // Alt
-        rgb_matrix_set_color(LED_R_I, COLOR_GUI);    // GUI
+        set_right_side_modifiers();
     }
 
     // ADJUST Layer: RGB controls
     else if (layer == _ADJUST) {
+        set_left_side_modifiers();
+        turn_off_all_right_side_keys();
+
         // RGB controls
         rgb_matrix_set_color(LED_R_P, COLOR_RGB);    // Toggle
         rgb_matrix_set_color(LED_R_H, COLOR_RGB);    // Sat+
@@ -580,11 +631,8 @@ bool rgb_matrix_indicators_user(void) {
 
     // PT Layer: Portuguese characters
     else if (layer == _PT) {
-        // Left side home row mods
-        rgb_matrix_set_color(LED_L_N, COLOR_CTRL);   // Ctrl
-        rgb_matrix_set_color(LED_L_R, COLOR_ALT);    // Alt
-        rgb_matrix_set_color(LED_L_T, COLOR_GUI);    // GUI
-        rgb_matrix_set_color(LED_L_S, COLOR_SHIFT);  // Shift
+        set_left_side_modifiers();
+        turn_off_all_right_side_keys();
 
         // QU combination
         rgb_matrix_set_color(LED_L_Q, COLOR_PT_QU);  // qu
@@ -613,21 +661,14 @@ bool rgb_matrix_indicators_user(void) {
 
     // PT_COMBO Layer: Portuguese combinations
     else if (layer == _PT_COMBO) {
-        // Left side home row mods (inherited from PT)
-        rgb_matrix_set_color(LED_L_N, COLOR_CTRL);   // Ctrl
-        rgb_matrix_set_color(LED_L_R, COLOR_ALT);    // Alt
-        rgb_matrix_set_color(LED_L_T, COLOR_GUI);    // GUI
-        rgb_matrix_set_color(LED_L_S, COLOR_SHIFT);  // Shift
+        set_left_side_modifiers();
+        turn_off_all_right_side_keys();
 
-        // Portuguese combinations - use combo color
+        // Set Portuguese combinations
         rgb_matrix_set_color(LED_R_O, COLOR_PT_O);   // ção (O position)
         rgb_matrix_set_color(LED_R_A, COLOR_PT_A);   // çã (A position)
         rgb_matrix_set_color(LED_R_E, COLOR_PT_E);   // ções (E position)
-        rgb_matrix_set_color(LED_R_F, COLOR_PT_C);       // ç (F position)
-
-        // Turn off empty positions
-        rgb_matrix_set_color(LED_R_H, 0, 0, 0);         // H off
-        rgb_matrix_set_color(LED_R_I, 0, 0, 0);         // I off
+        rgb_matrix_set_color(LED_R_F, COLOR_PT_C);   // ç (F position)
     }
 
     return false;
