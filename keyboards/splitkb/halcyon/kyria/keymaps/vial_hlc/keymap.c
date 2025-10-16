@@ -3,6 +3,19 @@
 
 #include QMK_KEYBOARD_H
 
+#ifdef HLC_TFT_DISPLAY
+#include "hlc_tft_display/hlc_tft_display.h"
+#include "qp_surface.h"
+
+// Graphics for layers 8 and 9
+#include "hlc_tft_display/graphics/numbers/8.qgf.h"
+#include "hlc_tft_display/graphics/numbers/9.qgf.h"
+
+// External display devices from hlc_tft_display module
+extern painter_device_t lcd;
+extern painter_device_t lcd_surface;
+#endif
+
 enum layers {
     _GALLIUM = 0,
     _NAV,
@@ -387,6 +400,12 @@ void keyboard_post_init_user(void) {
 #define COLOR_PT_O      255, 200, 0     // O-like characters (ó, ô, õ) - Yellow-orange
 #define COLOR_PT_C      255, 0, 100     // Ç character - Pink/Magenta
 #define COLOR_PT_QU     100, 150, 255   // QU - Light blue
+
+#ifdef HLC_TFT_DISPLAY
+// Display layer colors for layers 8 and 9
+#define HSV_LAYER_8     180, 255, 255   // Cyan
+#define HSV_LAYER_9     200, 255, 255   // Light blue
+#endif
 
 // Helper functions to turn off all keys on each side
 static void turn_off_all_left_side_keys(void) {
@@ -778,3 +797,35 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     return true;
 }
+
+#ifdef HLC_TFT_DISPLAY
+// Override display for layers 8 and 9 (module handles everything, we just override the graphic)
+void housekeeping_task_user(void) {
+    static uint8_t last_layer = 0;
+    uint8_t current_layer = get_highest_layer(layer_state | default_layer_state);
+
+    // Only override when on layers 8 or 9 and layer changed
+    if ((current_layer == 8 || current_layer == 9) && current_layer != last_layer) {
+        // Wait a bit for module to finish drawing "undef"
+        wait_ms(1);
+
+        painter_image_handle_t layer_img;
+
+        if (current_layer == 8) {
+            layer_img = qp_load_image_mem(gfx_8);
+            qp_drawimage_recolor(lcd_surface, 5, 5, layer_img, HSV_LAYER_8, HSV_BLACK);
+        } else {
+            layer_img = qp_load_image_mem(gfx_9);
+            qp_drawimage_recolor(lcd_surface, 5, 5, layer_img, HSV_LAYER_9, HSV_BLACK);
+        }
+
+        qp_close_image(layer_img);
+
+        // Flush our override to display
+        qp_surface_draw(lcd_surface, lcd, 0, 0, 0);
+        qp_flush(lcd);
+    }
+
+    last_layer = current_layer;
+}
+#endif
