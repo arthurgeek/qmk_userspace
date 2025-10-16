@@ -414,8 +414,8 @@ static void set_num_layer_leds(void) {
     rgb_matrix_set_color(LED_L_C, COLOR_SYMBOLS);       // ] (bracket)
     rgb_matrix_set_color(LED_L_S, COLOR_SYMBOLS);       // = (equals)
     rgb_matrix_set_color(LED_L_W, COLOR_SYMBOLS);       // \ (backslash)
-    rgb_matrix_set_color(LED_L_ESC, COLOR_SYMBOLS);     // . (dot)
-    rgb_matrix_set_color(LED_L_MED_ENT, COLOR_NUMBERS); // 0
+    rgb_matrix_set_color(LED_L_ESC, COLOR_NUMBERS);     // 0
+    rgb_matrix_set_color(LED_L_MED_ENT, COLOR_SYMBOLS); // . (dot)
     rgb_matrix_set_color(LED_L_NAV_SPC, COLOR_SYMBOLS); // - (minus)
 
     set_right_side_modifiers();
