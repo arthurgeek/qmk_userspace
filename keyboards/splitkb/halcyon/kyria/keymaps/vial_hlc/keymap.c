@@ -525,11 +525,32 @@ static void set_pt_combo_layer_leds(void) {
     rgb_matrix_set_color(LED_R_F, COLOR_PT_C);   // ç (F position)
 }
 
-// RGB lighting for layers
+// RGB lighting for layers with debouncing (prevent flashing during PTH)
 bool rgb_matrix_indicators_user(void) {
-    uint8_t layer = get_highest_layer(layer_state);
+    static uint8_t last_confirmed_layer = 0;
+    static uint8_t last_detected_layer = 0;
+    static uint32_t layer_change_timer = 0;
+    uint8_t current_layer = get_highest_layer(layer_state);
 
-    switch (layer) {
+    // Detect layer change
+    if (current_layer != last_detected_layer) {
+        layer_change_timer = timer_read();
+        last_detected_layer = current_layer;
+    }
+
+    // Determine which layer to display
+    uint8_t display_layer;
+    if (timer_elapsed(layer_change_timer) >= 150) {
+        // Layer is stable, update confirmed layer
+        display_layer = current_layer;
+        last_confirmed_layer = current_layer;
+    } else {
+        // Still debouncing, keep showing last confirmed layer
+        display_layer = last_confirmed_layer;
+    }
+
+    // Update RGB for the display layer
+    switch (display_layer) {
         case _ALPHA:
             set_alpha_layer_leds();
             break;
@@ -610,16 +631,25 @@ bool display_module_housekeeping_task_user(bool second_display) {
         return true;
     }
 
-    static uint8_t last_layer = 0;
+    static uint8_t last_displayed_layer = 0;
+    static uint8_t last_detected_layer = 0;
+    static uint32_t layer_change_timer = 0;
     uint8_t current_layer = get_highest_layer(layer_state | default_layer_state);
 
-    if (current_layer != last_layer && current_layer < 10) {
+    // Detect layer change
+    if (current_layer != last_detected_layer) {
+        layer_change_timer = timer_read();
+        last_detected_layer = current_layer;
+    }
+
+    // Only update display if layer has been stable for 150ms
+    if (timer_elapsed(layer_change_timer) >= 150 && current_layer != last_displayed_layer && current_layer < 10) {
         // Redraw only the changed layers
         for (uint8_t i = 0; i < 10; i++) {
-            if (i == current_layer || i == last_layer) {
+            if (i == current_layer || i == last_displayed_layer) {
                 uint16_t y = 5 + (i * (my_font->line_height + 2));
 
-                // Active: bright, Inactive: dim (no underline, just color change)
+                // Active: bright, Inactive: dim
                 if (i == current_layer) {
                     qp_drawtext_recolor(lcd_surface, 5, y, my_font, layer_names[i], HSV_LAYER_ON, HSV_BLACK);
                 } else {
@@ -629,7 +659,7 @@ bool display_module_housekeeping_task_user(bool second_display) {
         }
 
         qp_surface_draw(lcd_surface, lcd, 0, 0, 0);
-        last_layer = current_layer;
+        last_displayed_layer = current_layer;
     }
 
     return false;
