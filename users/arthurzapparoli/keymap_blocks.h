@@ -9,15 +9,15 @@
 // CORE 3x5 LAYOUT BLOCKS - Universal across all split keyboards
 // =============================================================================
 
-// Gallium Base Layer - Left Hand (3x5)
-#define __________________GALLIUM_L1___________________ KC_B        , KC_L        , KC_D        , KC_C        , KC_V
-#define __________________GALLIUM_L2___________________ LCTL_T(KC_N), LALT_T(KC_R), LGUI_T(KC_T), LSFT_T(KC_S), KC_G
-#define __________________GALLIUM_L3___________________ KC_X        , KC_Q        , KC_M        , KC_W        , KC_Z
+// Alpha Base Layer - Left Hand (3x5)
+#define ____________________ALPHA_L1___________________ KC_B        , KC_L        , KC_D        , KC_C        , KC_V
+#define ____________________ALPHA_L2___________________ LCTL_T(KC_N), LALT_T(KC_R), LGUI_T(KC_T), LSFT_T(KC_S), KC_G
+#define ____________________ALPHA_L3___________________ KC_X        , KC_Q        , KC_M        , KC_W        , KC_Z
 
-// Gallium Base Layer - Right Hand (3x5)
-#define __________________GALLIUM_R1___________________ KC_J, KC_Y        , KC_O        , KC_U        , KC_COMM
-#define __________________GALLIUM_R2___________________ KC_P, RSFT_T(KC_H), RGUI_T(KC_A), RALT_T(KC_E), RCTL_T(KC_I)
-#define __________________GALLIUM_R3___________________ KC_K, KC_F        , KC_QUOT     , KC_SCLN     , KC_DOT
+// Alpha Base Layer - Right Hand (3x5)
+#define ____________________ALPHA_R1___________________ KC_J, KC_Y        , KC_O        , KC_U        , KC_COMM
+#define ____________________ALPHA_R2___________________ KC_P, RSFT_T(KC_H), RGUI_T(KC_A), RALT_T(KC_E), RCTL_T(KC_I)
+#define ____________________ALPHA_R3___________________ KC_K, KC_F        , KC_QUOT     , KC_SCLN     , KC_DOT
 
 // Nav Layer - Left Hand
 #define ___________________NAV_L1______________________ _______, _______, _______, _______, _______
@@ -104,9 +104,9 @@
 // Keyboards with more thumbs add extra keys directly in their layouts
 // =============================================================================
 
-// Gallium Layer Thumbs (Left: Media/Esc, Nav/Space, Mouse/Tab | Right: Sym/Bksp, Num/Enter, Fun/Del)
-#define ______________GALLIUM_THUMBS_L_________________ MED_ESC, NAV_SPC, MSE_TAB
-#define ______________GALLIUM_THUMBS_R_________________ SYM_BSP, NUM_ENT, FUN_DEL
+// Alpha Layer Thumbs (Left: Media/Esc, Nav/Space, Mouse/Tab | Right: Sym/Bksp, Num/Enter, Fun/Del)
+#define ________________ALPHA_THUMBS_L_________________ MED_ESC, NAV_SPC, MSE_TAB
+#define ________________ALPHA_THUMBS_R_________________ SYM_BSP, NUM_ENT, FUN_DEL
 
 // Nav Layer Thumbs
 #define ________________NAV_THUMBS_L___________________ _______, _______, _______

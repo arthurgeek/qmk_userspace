@@ -12,7 +12,7 @@
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /*
- * Base Layer: Gallium with Home Row Mods (CAGS)
+ * Base Layer: Alpha with Home Row Mods (CAGS)
  *
  * ,-------------------------------------------.                              ,-------------------------------------------.
  * |   Tab  |   B  |   L  |   D  |   C  |   V  |                              |   J  |   Y  |   O  |   U  |   ,  |  Bspc  |
@@ -24,11 +24,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        |Med/Esc|Nav/Sp|Mse/Tb|                              |Sym/Bs|Num/En|Fun/Del|
  *                        `----------------------'                              `----------------------'
  */
-    [_GALLIUM] = LAYOUT_wrapper(
-     KC_TAB  , __________________GALLIUM_L1___________________ ,        __________________GALLIUM_R1___________________ , KC_BSPC,
-     OSL(_PT), __________________GALLIUM_L2___________________ ,        __________________GALLIUM_R2___________________ , KC_QUOT,
-     KC_LBRC , __________________GALLIUM_L3___________________ ,        __________________GALLIUM_R3___________________ , KC_SLSH,
-                                           ______________GALLIUM_THUMBS_L_________________ ,        ______________GALLIUM_THUMBS_R_________________
+    [_ALPHA] = LAYOUT_wrapper(
+     KC_TAB  , ____________________ALPHA_L1___________________ ,        ____________________ALPHA_R1___________________ , KC_BSPC,
+     OSL(_PT), ____________________ALPHA_L2___________________ ,        ____________________ALPHA_R2___________________ , KC_QUOT,
+     KC_LBRC , ____________________ALPHA_L3___________________ ,        ____________________ALPHA_R3___________________ , KC_SLSH,
+                                           ________________ALPHA_THUMBS_L_________________ ,        ________________ALPHA_THUMBS_R_________________
     ),
 
 /*

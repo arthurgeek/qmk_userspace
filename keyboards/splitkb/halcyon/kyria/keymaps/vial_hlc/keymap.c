@@ -6,46 +6,34 @@
 #include "portuguese.h"
 #include "keymap_blocks.h"
 
-#ifdef HLC_TFT_DISPLAY
-#include "hlc_tft_display/hlc_tft_display.h"
-#include "qp_surface.h"
-
-// Graphics for layers 8 and 9 only (module handles the rest)
-#include "hlc_tft_display/graphics/numbers/8.qgf.h"
-#include "hlc_tft_display/graphics/numbers/9.qgf.h"
-
-// External display devices from hlc_tft_display module
-extern painter_device_t lcd;
-extern painter_device_t lcd_surface;
-#endif
 
 // Kyria-specific layout wrapper (3x6 matrix + 5 thumbs + extras)
 #define LAYOUT_wrapper(...) LAYOUT_split_3x6_5_hlc(__VA_ARGS__)
 
 // Kyria-specific layer (starts after generic layers)
-#define _ADJUST _LAYER_COUNT  // RGB control layer
+#define _RGB _LAYER_COUNT  // RGB control layer
 
 // Kyria-specific aliases
-#define ADJUST   MO(_ADJUST)
+#define RGB   MO(_RGB)
 
-// Kyria-specific ADJUST layer blocks (RGB controls)
-#define __________________ADJUST_L1____________________ _______, _______, _______, _______, _______
-#define __________________ADJUST_L2____________________ _______, _______, _______, _______, _______
-#define __________________ADJUST_L3____________________ _______, _______, _______, _______, _______
-#define __________________ADJUST_R1____________________ _______, _______, _______, _______, _______
-#define __________________ADJUST_R2____________________ RM_TOGG, RM_SATU, RM_HUEU, RM_VALU, RM_NEXT
-#define __________________ADJUST_R3____________________ _______, RM_SATD, RM_HUED, RM_VALD, RM_PREV
+// Kyria-specific RGB layer blocks (RGB controls)
+#define ____________________RGB_L1_____________________ _______, _______, _______, _______, _______
+#define ____________________RGB_L2_____________________ _______, _______, _______, _______, _______
+#define ____________________RGB_L3_____________________ _______, _______, _______, _______, _______
+#define ____________________RGB_R1_____________________ _______, _______, _______, _______, _______
+#define ____________________RGB_R2_____________________ RM_TOGG, RM_SATU, RM_HUEU, RM_VALU, RM_NEXT
+#define ____________________RGB_R3_____________________ _______, RM_SATD, RM_HUED, RM_VALD, RM_PREV
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /*
- * Base Layer: Gallium with Home Row Mods (CAGS)
+ * Base Layer: Alpha with Home Row Mods (CAGS)
  */
-    [_GALLIUM] = LAYOUT_wrapper(
-     _______ , __________________GALLIUM_L1___________________ ,                                             __________________GALLIUM_R1___________________ , _______,
-     OSL(_PT), __________________GALLIUM_L2___________________ ,                                             __________________GALLIUM_R2___________________ , _______,
-     _______ , __________________GALLIUM_L3___________________ , KC_LBRC, KC_CAPS, _______, KC_RBRC,         __________________GALLIUM_R3___________________ , KC_SLSH,
-                                           ADJUST , ______________GALLIUM_THUMBS_L_________________, KC_NO  , ______________GALLIUM_THUMBS_R_________________, _______, KC_APP,
+    [_ALPHA] = LAYOUT_wrapper(
+     _______ , ____________________ALPHA_L1___________________ ,                                             ____________________ALPHA_R1___________________ , _______,
+     OSL(_PT), ____________________ALPHA_L2___________________ ,                                             ____________________ALPHA_R2___________________ , _______,
+     _______ , ____________________ALPHA_L3___________________ , KC_LBRC, KC_CAPS, _______, KC_RBRC,         ____________________ALPHA_R3___________________ , KC_SLSH,
+                                           RGB , ________________ALPHA_THUMBS_L_________________, KC_NO  , ________________ALPHA_THUMBS_R_________________, _______, KC_APP,
                                            KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO
     ),
 
@@ -116,12 +104,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
 /*
- * Adjust Layer: RGB controls
+ * RGB Layer: RGB controls
  */
-    [_ADJUST] = LAYOUT_wrapper(
-     _______, __________________ADJUST_L1____________________ ,                                     __________________ADJUST_R1____________________ , _______,
-     _______, __________________ADJUST_L2____________________ ,                                     __________________ADJUST_R2____________________ , _______,
-     _______, __________________ADJUST_L3____________________ , _______, _______, _______, _______, __________________ADJUST_R3____________________ , _______,
+   [_RGB] = LAYOUT_wrapper(
+    _______, ____________________RGB_L1_____________________ ,                                     ____________________RGB_R1_____________________ , _______,
+    _______, ____________________RGB_L2_____________________ ,                                     ____________________RGB_R2_____________________ , _______,
+    _______, ____________________RGB_L3_____________________ , _______, _______, _______, _______, ____________________RGB_R3_____________________ , _______,
                                 _______, _______, _______, _______, _______    ,        _______, _______, _______, _______, _______,
                                 _______, _______, _______, _______, _______    ,        _______, _______, _______, _______, _______
     ),
@@ -197,7 +185,7 @@ const uint8_t pth_side_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM = LAYOUT_split_3
 #define LED_L_Z 13        // Z
 #define LED_L_LBRC 12     // [ (left bracket)
 #define LED_L_CAPS 11     // Caps Lock
-#define LED_L_ADJUST 10   // Adjust
+#define LED_L_RGB 10   // RGB control layer
 #define LED_L_ESC 9       // Esc
 #define LED_L_MED_ENT 8   // Med/Ent
 #define LED_L_NAV_SPC 7   // Nav/Spc
@@ -232,7 +220,7 @@ static const uint8_t left_side_leds[] = {
     LED_L_B, LED_L_L, LED_L_D, LED_L_C, LED_L_V,
     LED_L_N, LED_L_R, LED_L_T, LED_L_S, LED_L_G,
     LED_L_X, LED_L_Q, LED_L_M, LED_L_W, LED_L_Z,
-    LED_L_LBRC, LED_L_CAPS, LED_L_ADJUST, LED_L_ESC,
+    LED_L_LBRC, LED_L_CAPS, LED_L_RGB, LED_L_ESC,
     LED_L_MED_ENT, LED_L_NAV_SPC, LED_L_MSE_TAB
 };
 #define LEFT_SIDE_LED_COUNT (sizeof(left_side_leds) / sizeof(left_side_leds[0]))
@@ -321,7 +309,7 @@ static void set_right_side_modifiers(void) {
 }
 
 // Layer-specific RGB handlers
-static void set_gallium_layer_leds(void) {
+static void set_alpha_layer_leds(void) {
     set_left_side_modifiers();
     set_right_side_modifiers();
 }
@@ -481,7 +469,7 @@ static void set_fun_layer_leds(void) {
     set_right_side_modifiers();
 }
 
-static void set_adjust_layer_leds(void) {
+static void set_rgb_layer_leds(void) {
     set_left_side_modifiers();
     turn_off_all_right_side_keys();
 
@@ -542,8 +530,8 @@ bool rgb_matrix_indicators_user(void) {
     uint8_t layer = get_highest_layer(layer_state);
 
     switch (layer) {
-        case _GALLIUM:
-            set_gallium_layer_leds();
+        case _ALPHA:
+            set_alpha_layer_leds();
             break;
         case _NAV:
             set_nav_layer_leds();
@@ -563,8 +551,8 @@ bool rgb_matrix_indicators_user(void) {
         case _FUN:
             set_fun_layer_leds();
             break;
-        case _ADJUST:
-            set_adjust_layer_leds();
+        case _RGB:
+            set_rgb_layer_leds();
             break;
         case _PT:
             set_pt_layer_leds();
@@ -583,33 +571,67 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 #ifdef HLC_TFT_DISPLAY
-// Override display for layers 8 and 9 (module handles everything, we just override the graphic)
-void housekeeping_task_user(void) {
+#include "hlc_tft_display/hlc_tft_display.h"
+#include "qp_surface.h"
+#include "graphics/fonts/Retron2000-20.qff.h"
+
+#define HSV_LAYER_ON 17, 191, 245   // Bright
+#define HSV_LAYER_OFF 17, 104, 77   // Dim
+
+static painter_font_handle_t my_font;
+
+painter_device_t lcd;
+painter_device_t lcd_surface;
+
+// All 10 layers (matching enum order in layers.h)
+static const char *layer_names[] = {
+    "Alpha", "Media", "Nav", "Mouse", "Sym", "Num", "Fun", "PT", "PT+", "RGB"
+};
+
+bool module_post_init_user(void) {
+    my_font = qp_load_font_mem(font_Retron2000_20);
+
+    // Draw all 10 layer names initially
+    for (uint8_t i = 0; i < 10; i++) {
+        uint16_t y = 5 + (i * (my_font->line_height + 2));
+        if (i == 0) {
+            qp_drawtext_recolor(lcd_surface, 5, y, my_font, layer_names[i], HSV_LAYER_ON, HSV_BLACK);
+        } else {
+            qp_drawtext_recolor(lcd_surface, 5, y, my_font, layer_names[i], HSV_LAYER_OFF, HSV_BLACK);
+        }
+    }
+
+    qp_surface_draw(lcd_surface, lcd, 0, 0, 0);
+    return false;
+}
+
+bool display_module_housekeeping_task_user(bool second_display) {
+    if (second_display) {
+        return true;
+    }
+
     static uint8_t last_layer = 0;
     uint8_t current_layer = get_highest_layer(layer_state | default_layer_state);
 
-    // Only override when on layers 8 or 9 and layer changed
-    if ((current_layer == 8 || current_layer == 9) && current_layer != last_layer) {
-        // Wait a bit for module to finish drawing "undef"
-        wait_ms(1);
+    if (current_layer != last_layer && current_layer < 10) {
+        // Redraw only the changed layers
+        for (uint8_t i = 0; i < 10; i++) {
+            if (i == current_layer || i == last_layer) {
+                uint16_t y = 5 + (i * (my_font->line_height + 2));
 
-        painter_image_handle_t layer_img;
-
-        if (current_layer == 8) {
-            layer_img = qp_load_image_mem(gfx_8);
-            qp_drawimage_recolor(lcd_surface, 5, 5, layer_img, HSV_LAYER_8, HSV_BLACK);
-        } else {
-            layer_img = qp_load_image_mem(gfx_9);
-            qp_drawimage_recolor(lcd_surface, 5, 5, layer_img, HSV_LAYER_9, HSV_BLACK);
+                // Active: bright, Inactive: dim (no underline, just color change)
+                if (i == current_layer) {
+                    qp_drawtext_recolor(lcd_surface, 5, y, my_font, layer_names[i], HSV_LAYER_ON, HSV_BLACK);
+                } else {
+                    qp_drawtext_recolor(lcd_surface, 5, y, my_font, layer_names[i], HSV_LAYER_OFF, HSV_BLACK);
+                }
+            }
         }
 
-        qp_close_image(layer_img);
-
-        // Flush our override to display
         qp_surface_draw(lcd_surface, lcd, 0, 0, 0);
-        qp_flush(lcd);
+        last_layer = current_layer;
     }
 
-    last_layer = current_layer;
+    return false;
 }
 #endif

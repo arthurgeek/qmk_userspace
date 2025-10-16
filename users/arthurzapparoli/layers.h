@@ -4,12 +4,12 @@
 #pragma once
 
 enum layers {
-    _GALLIUM = 0,
+    _ALPHA = 0,
+    _MEDIA,
     _NAV,
     _MOUSE,
-    _MEDIA,
-    _NUM,
     _SYM,
+    _NUM,
     _FUN,
     _PT,
     _PT_COMBO,
