@@ -21,5 +21,8 @@
 
 #define DYNAMIC_KEYMAP_LAYER_COUNT 10
 
+// Layer change debounce (prevents RGB/display flashing during PTH evaluation)
+#define LAYER_DEBOUNCE_MS 150
+
 // Predictive Tap Hold configuration
 #define TAPPING_TERM 0

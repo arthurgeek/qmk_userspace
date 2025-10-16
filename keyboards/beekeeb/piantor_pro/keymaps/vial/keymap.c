@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include QMK_KEYBOARD_H
-#include "layers.h"
+#include "base_layers.h"
 #include "portuguese.h"
 #include "keymap_blocks.h"
 
@@ -120,8 +120,3 @@ const uint8_t pth_side_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM = LAYOUT_split_3
  PTH_L, PTH_L, PTH_L, PTH_L, PTH_L, PTH_L,        PTH_R, PTH_R, PTH_R, PTH_R, PTH_R, PTH_R,
                       PTH_L, PTH_L, PTH_L,        PTH_R, PTH_R, PTH_R
 );
-
-// Delegate Portuguese character handling to shared code
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    return process_portuguese(keycode, record);
-}

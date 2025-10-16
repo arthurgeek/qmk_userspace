@@ -105,3 +105,9 @@ bool process_portuguese(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
+// Default process_record_user implementation - delegates to process_portuguese
+// Keyboards can override this if they need custom behavior
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    return process_portuguese(keycode, record);
+}
+
