@@ -10,3 +10,8 @@
 // Predictive Tap Hold configuration
 #define TAPPING_TERM 0
 
+// Bootmagic configuration for split keyboard
+// Right side: top-right key (Bspc key) enters bootloader
+#define BOOTMAGIC_ROW_RIGHT 4
+#define BOOTMAGIC_COLUMN_RIGHT 0
+
