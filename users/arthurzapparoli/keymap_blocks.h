@@ -113,8 +113,8 @@
 #define ________________NAV_THUMBS_R___________________ _______, _______, _______
 
 // Mouse Layer Thumbs (Right click, Left click, Middle click)
-#define _______________MOUSE_THUMBS_L__________________ KC_BTN2, KC_BTN1, KC_BTN3
-#define _______________MOUSE_THUMBS_R__________________ _______, _______, _______
+#define _______________MOUSE_THUMBS_L__________________ _______, _______, _______
+#define _______________MOUSE_THUMBS_R__________________ KC_BTN2, KC_BTN1, KC_BTN3
 
 // Media Layer Thumbs
 #define _______________MEDIA_THUMBS_L__________________ _______, _______, _______

@@ -197,9 +197,9 @@ static void set_mouse_layer_leds(void) {
     rgb_matrix_set_color(LED_R_SCLN, COLOR_WHEEL); // Wheel Right
 
     // Mouse buttons
-    rgb_matrix_set_color(LED_R_SYM, COLOR_BUTTON);     // Btn3
-    rgb_matrix_set_color(LED_R_NUM_SPC, COLOR_BUTTON); // Btn1
-    rgb_matrix_set_color(LED_R_FUN_BSP, COLOR_BUTTON); // Btn2
+    rgb_matrix_set_color(LED_R_SYM, COLOR_BUTTON);     // Btn2 (Right click)
+    rgb_matrix_set_color(LED_R_NUM_SPC, COLOR_BUTTON); // Btn1 (Left click)
+    rgb_matrix_set_color(LED_R_FUN_BSP, COLOR_BUTTON); // Btn3 (Middle click)
 }
 
 static void set_media_layer_leds(void) {
