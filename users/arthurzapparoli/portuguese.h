@@ -10,6 +10,7 @@ enum portuguese_keycodes {
     PT_A_TILDE = SAFE_RANGE,  // ã: KC_TILD + KC_A
     PT_A_ACUTE,                // á: KC_QUOT + KC_A
     PT_A_GRAVE,                // à: KC_GRV + KC_A
+    PT_A_CIRC,                 // â: KC_CIRC + KC_A
     PT_E_ACUTE,                // é: KC_QUOT + KC_E
     PT_E_CIRC,                 // ê: KC_CIRC + KC_E
     PT_I_ACUTE,                // í: KC_QUOT + KC_I

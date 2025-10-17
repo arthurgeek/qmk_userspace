@@ -85,9 +85,9 @@
 #define ___________________PT_L3_______________________ _______, PT_QU  , _______, _______, _______
 
 // PT Layer - Right Hand
-#define ___________________PT_R1_______________________ _______, PT_O_TILDE, PT_O_ACUTE, PT_O_CIRC , _______
+#define ___________________PT_R1_______________________ _______, PT_O_TILDE, PT_O_ACUTE, PT_A_CIRC , _______
 #define ___________________PT_R2_______________________ _______, PT_A_ACUTE, PT_A_TILDE, PT_E_ACUTE, PT_I_ACUTE
-#define ___________________PT_R3_______________________ _______, PT_COMBO  , PT_A_GRAVE, PT_E_CIRC , _______
+#define ___________________PT_R3_______________________ _______, PT_COMBO  , PT_A_GRAVE, PT_E_CIRC , PT_O_CIRC
 
 // PT_COMBO Layer - Left Hand
 #define _________________PT_COMBO_L1___________________ _______, _______, _______, _______, _______

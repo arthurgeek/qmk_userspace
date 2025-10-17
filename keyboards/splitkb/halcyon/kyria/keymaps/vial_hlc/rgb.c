@@ -324,12 +324,12 @@ static void set_pt_layer_leds(void) {
     rgb_matrix_set_color(LED_L_Q, COLOR_PT_QU);  // qu
 
     // Portuguese characters - semantic grouping by vowel family
-    // O-like characters (ó, ô, õ)
+    // O-like characters (ó, õ)
     rgb_matrix_set_color(LED_R_Y, COLOR_PT_O);      // õ
     rgb_matrix_set_color(LED_R_O, COLOR_PT_O);      // ó
-    rgb_matrix_set_color(LED_R_U, COLOR_PT_O);      // ô
 
-    // A-like characters (ã, á, à)
+    // A-like characters (ã, á, à, â)
+    rgb_matrix_set_color(LED_R_U, COLOR_PT_A);      // â
     rgb_matrix_set_color(LED_R_A, COLOR_PT_A);      // ã
     rgb_matrix_set_color(LED_R_H, COLOR_PT_A);      // á
     rgb_matrix_set_color(LED_R_QUOT, COLOR_PT_A);   // à
@@ -340,6 +340,9 @@ static void set_pt_layer_leds(void) {
 
     // I-like character (í)
     rgb_matrix_set_color(LED_R_I, COLOR_PT_I);      // í
+
+    // O-like character (ô)
+    rgb_matrix_set_color(LED_R_DOT, COLOR_PT_O);    // ô
 
     // Ç/OSL character - activates combo layer
     rgb_matrix_set_color(LED_R_F, COLOR_PT_C);      // COMBO (OSL)

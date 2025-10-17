@@ -53,6 +53,7 @@ bool process_portuguese(uint16_t keycode, keyrecord_t *record) {
         case PT_A_TILDE:   send_tilde(KC_A, shifted);         return false;  // ã / Ã
         case PT_A_ACUTE:   send_acute_accent(KC_A, shifted);  return false;  // á / Á
         case PT_A_GRAVE:   send_grave_accent(KC_A, shifted);  return false;  // à / À
+        case PT_A_CIRC:    send_circumflex(KC_A, shifted);    return false;  // â / Â
         case PT_E_ACUTE:   send_acute_accent(KC_E, shifted);  return false;  // é / É
         case PT_E_CIRC:    send_circumflex(KC_E, shifted);    return false;  // ê / Ê
         case PT_I_ACUTE:   send_acute_accent(KC_I, shifted);  return false;  // í / Í
